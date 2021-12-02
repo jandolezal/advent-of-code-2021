@@ -1,13 +1,13 @@
 import unittest
 
-from advent.day_02.dive import load_input, Submarine
+from day_02.dive import load_input, Submarine
 
 
-test_input = load_input('advent/day_02/test_input.txt')
+test_input = load_input('day_02/test_input.txt')
 test_output = [('forward', 5), ('down', 5), ('forward', 8), ('up', 3), ('down', 8), ('forward', 2)]
 
 
-data = load_input('advent/day_02/input.txt')
+data = load_input('day_02/input.txt')
 
 
 class TestDive(unittest.TestCase):

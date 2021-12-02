@@ -28,7 +28,7 @@ def get_window_increase_count(data, window_size=3):
 
 
 if __name__ == '__main__':
-    with open('advent/day_01/input.txt') as f:
+    with open('day_01/input.txt') as f:
         data = [int(word.strip()) for word in f.readlines()]
 
     #1

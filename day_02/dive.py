@@ -40,7 +40,7 @@ def dive(instructions):
 
 
 if __name__ == '__main__':
-    data = load_input('advent/day_02/input.txt')
+    data = load_input('day_02/input.txt')
 
     #2
     sub = Submarine()

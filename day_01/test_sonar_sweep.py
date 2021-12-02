@@ -1,14 +1,14 @@
 import unittest
 
-from advent.day_01.sonar_sweep import get_increase_count, get_window_increase_count
+from day_01.sonar_sweep import get_increase_count, get_window_increase_count
 
 
-with open('advent/day_01/test_input.txt') as f:
+with open('day_01/test_input.txt') as f:
     test_input = [int(word.strip()) for word in f.readlines()]
 
 test_output = [199, 200, 208, 210, 200, 207, 240, 269, 260, 263]
 
-with open('advent/day_01/input.txt') as f:
+with open('day_01/input.txt') as f:
     data = [int(word.strip()) for word in f.readlines()]
 
 
