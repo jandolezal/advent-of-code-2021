@@ -10,15 +10,17 @@ class Submarine:
 
     horizontal: int = 0
     depth: int = 0
+    aim: int = 0
 
     def dive(self, instructions):
         for direction, value in instructions:
             if direction == 'forward':
                 self.horizontal += value
+                self.depth += (self.aim * value)
             elif direction == 'down':
-                self.depth += value
+                self.aim += value
             elif direction == 'up':
-                self.depth -= value
+                self.aim -= value
             else:
                 print('Wrong line of instructions.')
     
@@ -40,11 +42,9 @@ def dive(instructions):
 if __name__ == '__main__':
     data = load_input('advent/day_02/input.txt')
 
-    #1
+    #2
     sub = Submarine()
     sub.dive(data)
     print(sub)
     print(sub.multiply())
-
-    #2
  
