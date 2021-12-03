@@ -32,7 +32,36 @@ def compute_rate(data, rate):
     return int(rate_string, 2)
 
 
+def reduce_data(data, rate):
+    length = len(data[0])
+
+    for i in range(length):
+        bits = []
+        for value in data:
+            bits.append(value[i])
+        c = Counter(bits)
+        # Bit criteria
+        if rate == 'o':
+            most_common = c.most_common()
+            if most_common[0][1] == most_common[1][1]: # equal counts
+                num = '1'
+            else:
+                num = most_common[0][0] # higher count wins
+        elif rate == 'co2':
+            most_common = c.most_common()
+            if most_common[-1][1] == most_common[-2][1]: # equal counts
+                num = '0'
+            else:
+                num = most_common[-1][0] # lower count wins
+        # Prepare new data which meet the criteria
+        data = [binary for binary in data if binary[i] == num]
+
+        if len(data) == 1:
+            return int(data[0], 2)
+
+
 if __name__ == '__main__':
+    # 1
     data = load_input('day_03/input.txt')
     
     gamma_rate = compute_rate(data, 'gamma')
@@ -40,3 +69,12 @@ if __name__ == '__main__':
 
     power_consumption = gamma_rate * epsilon_rate
     print(f'The power consumption is: {power_consumption}')
+
+    # 2
+    data = load_input('day_03/input.txt')
+
+    o_rate = reduce_data(data, 'o')
+    co2_rate = reduce_data(data, 'co2')
+    
+    life_support = o_rate * co2_rate
+    print(f'Life support rating is: {life_support}')

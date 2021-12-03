@@ -1,5 +1,5 @@
 import unittest
-from day_03.binary_diagnostic import load_input, compute_rate
+from day_03.binary_diagnostic import load_input, compute_rate, reduce_data
 
 
 test_input = load_input('day_03/test_input.txt')
@@ -27,6 +27,18 @@ class TestBinaryDiagnostic(unittest.TestCase):
         epsilon_rate = compute_rate(data, 'epsilon')
         power_consumption = gamma_rate * epsilon_rate
         self.assertEqual(power_consumption, 841526)
+    
+    def test_life_support_with_test_data(self):
+        o_rate = reduce_data(test_input, 'o')
+        co2_rate = reduce_data(test_input, 'co2')
+        life_support = o_rate * co2_rate
+        self.assertEqual(life_support, 230)
+
+    def test_life_support(self):
+        o_rate = reduce_data(data, 'o')
+        co2_rate = reduce_data(data, 'co2')
+        life_support = o_rate * co2_rate
+        self.assertEqual(life_support, 4790390)
 
 
 if __name__ == '__main__':
