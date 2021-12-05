@@ -27,7 +27,7 @@ def mark_cells(number, board):
 
 
 def winning_row(board):
-    for i in range(5):
+    for i in range(0,25,5):
         row = board[i:i+5]
         if all(cell['marked'] for cell in row):
             return True
@@ -57,8 +57,21 @@ def play(drawn, boards):
         for board in boards: 
             if winning_row(board) or winning_column(board):
                 sum_unmarked = sum_unmarked_numbers(board)
-                print(f'Sum, number: {sum_unmarked}, {number}')
                 return sum_unmarked * number
+
+
+def another_play(drawn, boards):
+    winning = []
+    for number in drawn:
+        for board in boards:
+            mark_cells(number, board)
+        for i, board in enumerate(boards):
+            if i not in winning:
+                if winning_row(board) or winning_column(board):
+                    winning.append(i)
+                    if len(winning) == len(boards):
+                        sum_unmarked = sum_unmarked_numbers(boards[winning[-1]])
+                        return sum_unmarked * number
 
 
 if __name__ == '__main__':
@@ -67,3 +80,7 @@ if __name__ == '__main__':
     score = play(drawn, boards)
     print(f'The winning score is {score}')
 
+    # 2
+    drawn, boards = load_input('day_04/input.txt')
+    score = another_play(drawn, boards)
+    print(f'The winning score is {score}')
