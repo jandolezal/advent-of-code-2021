@@ -10,8 +10,8 @@ class TestHydrothermalVenture(unittest.TestCase):
 
     def test_line_from_both_ends(self):
         test_input = load_input('day_05/test_input.txt')
-        assert line_from_both_ends(test_input[0]) == [(0, 9), (1, 9), (2, 9), (3, 9), (4, 9), (5, 9)]
-        assert line_from_both_ends(test_input[3]) == [(2, 1), (2, 2)]
+        assert line_from_both_ends(test_input[0], is_diagonal=False) == [(0, 9), (1, 9), (2, 9), (3, 9), (4, 9), (5, 9)]
+        assert line_from_both_ends(test_input[3], is_diagonal=False) == [(2, 1), (2, 2)]
     
     def test_make_lines(self):
         test_input = load_input('day_05/test_input.txt')
@@ -30,6 +30,21 @@ class TestHydrothermalVenture(unittest.TestCase):
         diagram = build_diagram(lines)
         points = calculate_points(diagram)
         assert points == 7085
+
+    def test_calculate_points_with_test_data_include_diagonal(self):
+        data = load_input('day_05/test_input.txt')
+        lines = make_lines(data, skip_diagonal=False)
+        diagram = build_diagram(lines)
+        points = calculate_points(diagram)
+        assert points == 12
+
+    def test_calculate_points_include_diagonal(self):
+        data = load_input('day_05/input.txt')
+        lines = make_lines(data, skip_diagonal=False)
+        diagram = build_diagram(lines)
+        points = calculate_points(diagram)
+        assert points == 20271
+
 
 if __name__ == '__main__':
     unittest.main()
