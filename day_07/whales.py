@@ -4,8 +4,8 @@ https://adventofcode.com/2021/day/7
 """
 
 import statistics
-import math
 from collections import Counter
+
 
 def load_input(filepath):
     with open(filepath) as f:
@@ -20,6 +20,7 @@ if __name__ == '__main__':
     print(fuel_spent)
 
     # 2
+    # This is very slow
     data = load_input('day_07/input.txt')
     low, high = min(data), max(data)
     fuel_sums = {}
@@ -30,15 +31,3 @@ if __name__ == '__main__':
             new_diffs.append(sum([x + 1 for x in range(diff)]))
         fuel_sums[position] = sum(new_diffs)
     print(Counter(fuel_sums).most_common()[-1][1])
-
-
-    # This is a wrong model. Mean minimises sum of squared errors.
-    # mean = int(round((statistics.mean(data))))
-    # basic_differences = [abs(num - mean) for num in data]
-    # new_differences = []
-    # for diff in basic_differences:
-    #     new_differences.append(sum([x + 1 for x in range(diff) ]))
-    # fuel_spent = sum(new_differences)
-    # print(fuel_spent)
-
-    # It is not 98925156
