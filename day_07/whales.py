@@ -4,7 +4,6 @@ https://adventofcode.com/2021/day/7
 """
 
 import statistics
-from collections import Counter
 
 
 def load_input(filepath):
@@ -20,14 +19,11 @@ if __name__ == '__main__':
     print(fuel_spent)
 
     # 2
-    # This is very slow
+    # Faster version after learning about partial sums @junior.guru
     data = load_input('day_07/input.txt')
     low, high = min(data), max(data)
-    fuel_sums = {}
+    fuel_sums = []
     for position in range(low, high):
         basic_diffs = [abs(num - position) for num in data]
-        new_diffs = []
-        for diff in basic_diffs:
-            new_diffs.append(sum([x + 1 for x in range(diff)]))
-        fuel_sums[position] = sum(new_diffs)
-    print(Counter(fuel_sums).most_common()[-1][1])
+        fuel_sums.append(sum([n*(n+1)/2 for n in basic_diffs]))
+    print(int(min(fuel_sums)))
