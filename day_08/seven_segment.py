@@ -24,77 +24,38 @@ def count_easy_digits(data):
     return count
 
 
-def identify_easy_digits(line):
+def identify_digits(line):
+    input = line[0]
     digits = {}
-    for letters in line[0]:
-        length = len(letters)
-        letters = set(letters)
-        if length == 2:
-            digits[1] = letters
-        if length == 3:
-            digits[7] = letters            
-        if length == 4:
-            digits[4] = letters
-        if length == 7:
-            digits[8] = letters
+
+    # easy digits
+    digits[1] = [letters for letters in input if len(letters) == 2][0]
+    digits[4] = [letters for letters in input if len(letters) == 4][0]
+    digits[7] = [letters for letters in input if len(letters) == 3][0]
+    digits[8] = [letters for letters in input if len(letters) == 7][0]
+    
+    # complicated digits
+    digits[3] = [letters for letters in input if ((len(letters) == 5) and set(digits[1]) <= set(letters))][0]
+    digits[6] = [letters for letters in input if ((len(letters) == 6) and not set(digits[1]) <= set(letters))][0]
+    digits[9] = [letters for letters in input if ((len(letters) == 6) and set(digits[4]) <= set(letters))][0]
+    digits[0] = [letters for letters in input if ((len(letters) == 6) and set(letters) != set(digits[6]) and set(letters) != set(digits[9]))][0]
+    digits[5] = [letters for letters in input if ((len(letters) == 5) and set(letters) <= set(digits[6]))][0]
+    digits[2] = [letters for letters in input if ((len(letters) == 5) and set(letters) != set(digits[3]) and set(letters) != set(digits[5]))][0]
+
     return digits
 
 
-def build_mapping(line):
-    digits = identify_easy_digits(line)
-    fives = [set(letters) for letters in line[0] if len(letters) == 5]
-    sixes = [set(letters) for letters in line[0] if len(letters) == 6]
-    
-    segments = {}
-
-    segments['a'] = list(digits[7] - digits[1])[0]
-
-    digits[3] = list([letters for letters in fives if digits[1] <= letters])[0]
-    digits[6] = list([letters for letters in sixes if not digits[1] <= letters])[0]
-    digits[9] = list([letters for letters in sixes if digits[4] <= letters])[0]
-    digits[0] = list([letters for letters in sixes if (letters != digits[6] and letters != digits[9] ) ] )[0]
-    digits[5] = list([letters for letters in fives if letters <= digits[6]])[0]
-    digits[2] = list([letters for letters in fives if (letters != digits[3] and letters != digits[5] ) ] )[0]
-
-    segments['d'] = list(digits[8] - digits[0])[0]    
-    segments['e'] = list(digits[6] - digits[5])[0]
-    segments['c'] = list(digits[8] - digits[6])[0]
-    segments['f'] = list(digits[1] - set(segments['c']))[0]
-    segments['b'] = list(digits[4] - set([segments['c'], segments['d'], segments['f']]))[0]
-    segments['g'] = list(set('abcdefg') - set(segments.values()))[0]
-
-    return segments
+def reverse_mapping(mapping):
+    return {''.join(sorted(v)): k for k, v in mapping.items()}
 
 
-def translate(line, mapping):
-    reverse_mapping = {v: k for k, v in mapping.items()}
-    digits = []
-    for letters in line[1]:
-        segments = []
-        for letter in letters:
-            segments.append(reverse_mapping[letter])
-        segments = ''.join(sorted(segments))
-        if segments == 'abcefg':
-            digits.append(0)
-        elif segments == 'cf':
-            digits.append(1)
-        elif segments == 'acdeg':
-            digits.append(2)
-        elif segments == 'acdfg':
-            digits.append(3)
-        elif segments == 'bcdf':
-            digits.append(4)
-        elif segments == 'abdfg':
-            digits.append(5)
-        elif segments == 'abdefg':
-            digits.append(6)
-        elif segments == 'acf':
-            digits.append(7)
-        elif segments == 'abcdefg':
-            digits.append(8)
-        elif segments == 'abcdfg':
-            digits.append(9)
-    return int(''.join([str(num) for num in digits]))
+def apply_mapping(line, mapping):
+    output = line[1]
+    digits = ''
+    for letters in output:
+        sorted_letters = ''.join(sorted(letters))
+        digits += str(mapping[sorted_letters])
+    return int(digits)
 
 
 if __name__ == '__main__':
@@ -107,7 +68,8 @@ if __name__ == '__main__':
     data = load_input('day_08/input.txt')
     num_sum = 0
     for line in data:
-        mapping = build_mapping(line)
-        number = translate(line, mapping)
+        digits = identify_digits(line)
+        mapping = reverse_mapping(digits)
+        number = apply_mapping(line, mapping)
         num_sum += number
     print(num_sum)
