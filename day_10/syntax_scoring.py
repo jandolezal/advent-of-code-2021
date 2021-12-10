@@ -1,5 +1,5 @@
 """
-Day 9: Syntax scoring
+Day 10: Syntax scoring
 https://adventofcode.com/2021/day/10
 """
 
@@ -38,9 +38,9 @@ def find_illegal_closing(line):
         return None
 
     first_char = line[first_index]
-
+    # Check if character preceding first closing character is a match
     if line[first_index-1] != map[first_char]:
-        return line[first_index]
+        return first_char
 
 
 if __name__ == '__main__':
@@ -53,16 +53,8 @@ if __name__ == '__main__':
         if char:
             chars.append(char)
 
-    points = []
-    for char in chars:
-        if char == ')':
-            points.append(3)
-        elif char == ']':
-            points.append(57)
-        elif char == '}':
-            points.append(1197)
-        elif char == '>':
-            points.append(25137)
+    score_map = {')': 3, ']': 57, '}': 1197, '>': 25137}
+    points = [score_map[char] for  char in chars]
     total = sum(points)
 
     print(total)
