@@ -22,6 +22,11 @@ class TestTransparentOrigami(unittest.TestCase):
         another_dots = split(new_dots, 'x', 5)
         assert len(another_dots) == 16
     
+    def test_part_1_with_test_data_in_one_go(self):
+        dots, instructions = load_input('day_13/test_input.txt')
+        for axis, fold_index in instructions:
+            dots = split(dots, axis, fold_index)
+        assert len(dots) == 16
 
     def test_part_1(self):
         new_dots = part1()

@@ -49,8 +49,37 @@ def part1(filename='day_13/input.txt'):
     return new_dots
 
 
+def visualize_dots(dots):
+    xs = [x for x, _ in dots]
+    ys = [y for _, y in dots]
+
+    lines = ''
+
+    for x in range(max(xs) + 1):
+        row = []
+        for y in range(max(ys) + 1):
+            if (x, y) in dots:
+                symbol = '#'
+            else:
+                symbol = ' '
+            lines = lines + symbol
+        lines = lines + '\n'
+    return lines
+
+
+def part2(filename='day_13/input.txt'):
+    dots, instructions = load_input(filename)
+    for axis, fold_index in instructions:
+        dots = split(dots, axis, fold_index)
+    return dots
+
+
 if __name__ == '__main__':
     # 1
     new_dots = part1()
     print(len(new_dots))
+
+    # 2
+    new_dots = part2('day_13/input.txt')
+    print(visualize_dots(new_dots))
  
