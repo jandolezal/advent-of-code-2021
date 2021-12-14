@@ -1,3 +1,4 @@
+from array import array
 import collections
 import unittest
 
@@ -9,8 +10,8 @@ class TestExtendedPolymerization(unittest.TestCase):
     
     def test_loading_input(self):
         template, rules = load_input('day_14/test_input.txt')
-        self.assertEqual(template, 'NNCB')
-        self.assertDictContainsSubset({('C', 'H'): 'B', ('C', 'N'): 'C'}, rules)
+        self.assertEqual(template, array('b', [78, 78, 67, 66]))
+        self.assertDictContainsSubset({(ord('C'), ord('H')): ord('B'), (ord('C'), ord('N')): ord('C')}, rules)
     
     def test_make_steps_with_test_input(self):
         template, rules = load_input('day_14/test_input.txt')
