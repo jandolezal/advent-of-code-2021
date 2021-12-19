@@ -37,15 +37,15 @@ def dijkstra(data):
     pq.put((0, (0, 0)))
 
     while not pq.empty():
-        dist, current_vertex  = pq.get()
-        visited.add(current_vertex)
+        current_cost, (current_row, current_col)  = pq.get()
+        visited.add((current_row, current_col))
 
-        for nrow, ncol in get_neighbours(current_vertex[0], current_vertex[1], rows, cols):
-            if (nrow, ncol) not in visited:
-                cost = dist + data[nrow][ncol]
-                if cost < costs[nrow][ncol]:
-                    costs[nrow][ncol] = cost
-                    pq.put((cost, (nrow, ncol)))
+        for neighbour_row, neighbour_col in get_neighbours(current_row, current_col, rows, cols):
+            if (neighbour_row, neighbour_col) not in visited:
+                cost = current_cost + data[neighbour_row][neighbour_col]
+                if cost < costs[neighbour_row][neighbour_col]:
+                    costs[neighbour_row][neighbour_col] = cost
+                    pq.put((cost, (neighbour_row, neighbour_col)))
     return costs
 
 
