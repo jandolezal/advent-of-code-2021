@@ -49,8 +49,36 @@ def dijkstra(data):
     return costs
 
 
+#Source: https://github.com/messa/aoc/blob/main/2021/15.py
+def reset(num):
+    if num > 9:
+        num -= 9
+    return num
+
+
+def inflate_data(data):
+    rows = len(data)
+    cols = len(data[0])
+
+    new_data = []
+
+    for x in range(5 * rows):
+        new_row = []
+        for y in range(5 * cols):
+            new_row.append(reset(data[x %rows][y%cols] + x//rows + y//cols))
+        new_data.append(new_row)
+
+    return new_data
+            
+
 if __name__ == '__main__':
     # 1
     data = load_input('day_15/input.txt')
     costs = dijkstra(data)
+    print(costs[-1][-1])
+
+    #2
+    data = load_input('day_15/input.txt')
+    inflated_data = inflate_data(data)
+    costs = dijkstra(inflated_data)
     print(costs[-1][-1])
